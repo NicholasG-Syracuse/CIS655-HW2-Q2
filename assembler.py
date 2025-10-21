@@ -6,11 +6,28 @@ def parseLabels():
     return
 
 def instructionRead(filename):
+    # Dictionary used to store register values for registers 1-7
+    registers = {
+        "R1": 0,
+        "R2": 0,
+        "R3": 0,
+        "R4": 0,
+        "R5": 0,
+        "R6": 0,
+        "R7": 0
+    }
+
     # Tokenize line by splitting them on spaces and (maybe) commas
     # Properly assign each token to the right piece of an instruction
 
     # (If we're using a file and not entering instructions manually)
     # Start by reading the file line by line to tokenize and process them
+    
+    # An example instruction could be "LOAD R1 50"
+    # The first token is the instruction, "LOAD"
+    # The second token is the register we use to update the dictionary, i.e. "R1"
+    # The third token is the value being loaded, "50"
+    
     with open(filename) as file:
         for line in file:
             # Split line on spaces
@@ -25,10 +42,29 @@ def instructionRead(filename):
                 return
             elif tok[0].upper() == "ADD":
                 # Process Add instruction here
+                reg1 = tok[1]
+                reg2 = tok[2]
+                val = tok[3]
+                registers[reg1] = registers[reg2] + val
+                return
+            elif tok[0].upper() == "ADDREG":
+                # Process Add instruction here
+                reg1 = tok[1]
+                reg2 = tok[2]
+                registers[reg1] += registers[reg2]
                 return
             elif tok[0].upper() == "SUBTRACT":
                 # Process Subtract instruction here
+                reg1 = tok[1]
+                reg2 = tok[2]
+                val = tok[3]
+                registers[reg1] = registers[reg2] - val
                 return
+            elif tok[0].upper() == "SUBTRACTREG":
+                # Process Add instruction here
+                reg1 = tok[1]
+                reg2 = tok[2]
+                registers[reg1] -= registers[reg2]
             elif tok[0].upper() == "COMPARE":
                 # Process Compare instruction here
                 return
