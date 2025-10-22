@@ -28,70 +28,110 @@ def instructionRead(filename):
     # The second token is the register we use to update the dictionary, i.e. "R1"
     # The third token is the value being loaded, "50"
     
-    with open(filename) as file:
-        for line in file:
-            # Split line on spaces
-            tok = line.split()
+    try:    
+        with open(filename) as file:
+            for line in file:
+                # Split line on spaces
+                tok = line.split()
 
-            # Big chunk of if/else statements reading tokens goes here
-            if tok[0].upper() == "LOAD":
-                # Process Load instruction here
-                return
-            elif tok[0].upper() == "STORE":
-                # Process Store instruction here
-                return
-            elif tok[0].upper() == "ADD":
-                # Process Add instruction here
-                reg1 = tok[1]
-                val = tok[2]
-                registers[reg1] += val
-                by = [0x40, tok[1][1], val >> 8, val & 0xFF]
-                print("opcode: ", by[0], ", Register: ", by[1], ", Data Hi: ", by[2], ", Data Lo: ", by[3])
-                print("Memory content for register ", tok[1][1], ": ", registers[reg1])
-                return
-            elif tok[0].upper() == "ADDREG":
-                # Process Add instruction here
-                reg1 = tok[1]
-                reg2 = tok[2]
-                registers[reg1] += registers[reg2]
-                by = [0x41, tok[1][1], 0, tok[2][1]]
-                print("opcode: ", by[0], ", Register: ", by[1], ", Data Hi: ", by[2], ", Data Lo: ", by[3])
-                print("Memory content for register ", tok[1][1], ": ", registers[reg1])
-                return
-            elif tok[0].upper() == "SUBTRACT":
-                # Process Subtract instruction here
-                reg1 = tok[1]
-                val = tok[2]
-                registers[reg1] -= val
-                by = [0x42, tok[1][1], val >> 8, val & 0xFF]
-                print("opcode: ", by[0], ", Register: ", by[1], ", Data Hi: ", by[2], ", Data Lo: ", by[3])
-                print("Memory content for register ", tok[1][1], ": ", registers[reg1])
-                return
-            elif tok[0].upper() == "SUBTRACTREG":
-                # Process Add instruction here
-                reg1 = tok[1]
-                reg2 = tok[2]
-                registers[reg1] -= registers[reg2]
-                by = [0x43, tok[1][1], 0, tok[2][1]]
-                print("opcode: ", by[0], ", Register: ", by[1], ", Data Hi: ", by[2], ", Data Lo: ", by[3])
-                print("Memory content for register ", tok[1][1], ": ", registers[reg1])
-            elif tok[0].upper() == "COMPARE":
-                # Process Compare instruction here
-                return
-            elif tok[0].upper() == "BRANCH":
-                # Process Branch instruction here
-                # Don't forget that there's 4 types of Branch
-                return
-            else:
-                # Handle invalid instructions
-                # If we include labels, need a way to skip over label lines to avoid
-                print("Invalid instruction!")
+                # Big chunk of if/else statements reading tokens goes here
+                if tok[0].upper() == "LOAD":
+                    # Process Load instruction here
+                    return
+                elif tok[0].upper() == "STORE":
+                    # Process Store instruction here
+                    return
+                elif tok[0].upper() == "ADD":
+                    # Process Add instruction here
+                    reg1 = tok[1]
+                    val = tok[2]
+                    registers[reg1] += val
+                    by = [0x40, tok[1][1], val >> 8, val & 0xFF]
+                    print("opcode: ", by[0], ", Register: ", by[1], ", Data Hi: ", by[2], ", Data Lo: ", by[3])
+                    print("Memory content for register ", tok[1][1], ": ", registers[reg1])
+                elif tok[0].upper() == "ADDREG":
+                    # Process Add instruction here
+                    reg1 = tok[1]
+                    reg2 = tok[2]
+                    registers[reg1] += registers[reg2]
+                    by = [0x41, tok[1][1], 0, tok[2][1]]
+                    print("opcode: ", by[0], ", Register: ", by[1], ", Data Hi: ", by[2], ", Data Lo: ", by[3])
+                    print("Memory content for register ", tok[1][1], ": ", registers[reg1])
+                elif tok[0].upper() == "SUBTRACT":
+                    # Process Subtract instruction here
+                    reg1 = tok[1]
+                    val = tok[2]
+                    registers[reg1] -= val
+                    by = [0x42, tok[1][1], val >> 8, val & 0xFF]
+                    print("opcode: ", by[0], ", Register: ", by[1], ", Data Hi: ", by[2], ", Data Lo: ", by[3])
+                    print("Memory content for register ", tok[1][1], ": ", registers[reg1])
+                elif tok[0].upper() == "SUBTRACTREG":
+                    # Process Add instruction here
+                    reg1 = tok[1]
+                    reg2 = tok[2]
+                    registers[reg1] -= registers[reg2]
+                    by = [0x43, tok[1][1], 0, tok[2][1]]
+                    print("opcode: ", by[0], ", Register: ", by[1], ", Data Hi: ", by[2], ", Data Lo: ", by[3])
+                    print("Memory content for register ", tok[1][1], ": ", registers[reg1])
+                elif tok[0].upper() == "MULTIPLY":
+                    # Process Add instruction here
+                    reg1 = tok[1]
+                    val = tok[2]
+                    registers[reg1] *= val
+                    by = [0x44, tok[1][1], val >> 8, val & 0xFF]
+                    print("opcode: ", by[0], ", Register: ", by[1], ", Data Hi: ", by[2], ", Data Lo: ", by[3])
+                    print("Memory content for register ", tok[1][1], ": ", registers[reg1])
+                elif tok[0].upper() == "MULTIPLYREG":
+                    # Process Add instruction here
+                    reg1 = tok[1]
+                    reg2 = tok[2]
+                    registers[reg1] *= registers[reg2]
+                    by = [0x45, tok[1][1], 0, tok[2][1]]
+                    print("opcode: ", by[0], ", Register: ", by[1], ", Data Hi: ", by[2], ", Data Lo: ", by[3])
+                    print("Memory content for register ", tok[1][1], ": ", registers[reg1])
+                elif tok[0].upper() == "DIVISION":
+                    # Process Add instruction here
+                    reg1 = tok[1]
+                    val = tok[2]
+                    if val == 0:
+                        print("Error: can't divide by zero")
+                        break
+                    registers[reg1] *= val
+                    by = [0x46, tok[1][1], val >> 8, val & 0xFF]
+                    print("opcode: ", by[0], ", Register: ", by[1], ", Data Hi: ", by[2], ", Data Lo: ", by[3])
+                    print("Memory content for register ", tok[1][1], ": ", registers[reg1])
+                elif tok[0].upper() == "DIVISIONREG":
+                    # Process Add instruction here
+                    reg1 = tok[1]
+                    reg2 = tok[2]
+                    if reg2 == 0:
+                        print("Error: can't divide by zero")
+                        break
+                    registers[reg1] *= registers[reg2]
+                    by = [0x47, tok[1][1], 0, tok[2][1]]
+                    print("opcode: ", by[0], ", Register: ", by[1], ", Data Hi: ", by[2], ", Data Lo: ", by[3])
+                    print("Memory content for register ", tok[1][1], ": ", registers[reg1])
+                elif tok[0].upper() == "COMPARE":
+                    # Process Compare instruction here
+                    return
+                elif tok[0].upper() == "BRANCH":
+                    # Process Branch instruction here
+                    # Don't forget that there's 4 types of Branch
+                    return
+                else:
+                    # Handle invalid instructions
+                    # If we include labels, need a way to skip over label lines to avoid
+                    print("Invalid instruction!")
+    except:
+        print("Error: file not found")
 
     return
 
 
 
-
+if __name__ == "__main__":
+    filen = input('Enter a file name: ')
+    instructionRead(filen)
 
 
 
