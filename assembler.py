@@ -46,12 +46,18 @@ def instructionRead(filename):
                 reg2 = tok[2]
                 val = tok[3]
                 registers[reg1] = registers[reg2] + val
+                by = [0x40, tok[1][1], val >> 8, val & 0xFF]
+                print("opcode: ", by[0], ", Register: ", by[1], ", Data Hi: ", by[2], ", Data Lo: ", by[3])
+                print("Memory content for register ", tok[1][1], ": ", registers[reg1])
                 return
             elif tok[0].upper() == "ADDREG":
                 # Process Add instruction here
                 reg1 = tok[1]
                 reg2 = tok[2]
                 registers[reg1] += registers[reg2]
+                by = [0x41, tok[1][1], 0, tok[2][1]]
+                print("opcode: ", by[0], ", Register: ", by[1], ", Data Hi: ", by[2], ", Data Lo: ", by[3])
+                print("Memory content for register ", tok[1][1], ": ", registers[reg1])
                 return
             elif tok[0].upper() == "SUBTRACT":
                 # Process Subtract instruction here
@@ -59,12 +65,18 @@ def instructionRead(filename):
                 reg2 = tok[2]
                 val = tok[3]
                 registers[reg1] = registers[reg2] - val
+                by = [0x42, tok[1][1], val >> 8, val & 0xFF]
+                print("opcode: ", by[0], ", Register: ", by[1], ", Data Hi: ", by[2], ", Data Lo: ", by[3])
+                print("Memory content for register ", tok[1][1], ": ", registers[reg1])
                 return
             elif tok[0].upper() == "SUBTRACTREG":
                 # Process Add instruction here
                 reg1 = tok[1]
                 reg2 = tok[2]
                 registers[reg1] -= registers[reg2]
+                by = [0x43, tok[1][1], 0, tok[2][1]]
+                print("opcode: ", by[0], ", Register: ", by[1], ", Data Hi: ", by[2], ", Data Lo: ", by[3])
+                print("Memory content for register ", tok[1][1], ": ", registers[reg1])
             elif tok[0].upper() == "COMPARE":
                 # Process Compare instruction here
                 return
