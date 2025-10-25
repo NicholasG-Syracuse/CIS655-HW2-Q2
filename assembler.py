@@ -74,7 +74,7 @@ def instructionRead(filename, labels):
                 elif tok[0].upper() == "ADD":
                     # Process Add instruction here
                     reg1 = tok[1]
-                    val = tok[2]
+                    val = int(tok[2])
                     registers[reg1] += val
                     by = [0x40, tok[1][1], val >> 8, val & 0xFF]
                     print("opcode: " + format(by[0], '#04x') + ", Register: " + by[1] + ", Data Hi: " + by[2] + ", Data Lo: " + by[3])
@@ -90,7 +90,7 @@ def instructionRead(filename, labels):
                 elif tok[0].upper() == "SUBTRACT":
                     # Process Subtract instruction here
                     reg1 = tok[1]
-                    val = tok[2]
+                    val = int(tok[2])
                     registers[reg1] -= val
                     by = [0x42, tok[1][1], val >> 8, val & 0xFF]
                     print("opcode: " + format(by[0], '#04x') + ", Register: " + by[1] + ", Data Hi: " + by[2] + ", Data Lo: " + by[3])
@@ -106,7 +106,7 @@ def instructionRead(filename, labels):
                 elif tok[0].upper() == "MULTIPLY":
                     # Process Multiply instruction here
                     reg1 = tok[1]
-                    val = tok[2]
+                    val = int(tok[2])
                     registers[reg1] *= val
                     by = [0x44, tok[1][1], val >> 8, val & 0xFF]
                     print("opcode: ", format(by[0], '#04x') + ", Register: " + by[1] + ", Data Hi: " + by[2] + ", Data Lo: " + by[3])
@@ -122,7 +122,7 @@ def instructionRead(filename, labels):
                 elif tok[0].upper() == "DIVISION":
                     # Process Dividision instruction here
                     reg1 = tok[1]
-                    val = tok[2]
+                    val = int(tok[2])
                     if val == 0:
                         print("Error: can't divide by zero")
                         break
@@ -144,9 +144,22 @@ def instructionRead(filename, labels):
                 elif tok[0].upper() == "COMPARE":
                     # Process Compare instruction here
                     return
-                elif tok[0].upper() == "BRANCH":
-                    # Process Branch instruction here
+                elif tok[0].upper() == "BRANCHEQR":
+                    # Process Branch If Equal (Register Comparison) instruction here
                     # Don't forget that there's 4 types of Branch
+                    reg1 = tok[1]
+                    reg2 = tok[2]
+                    label = tok[3]
+
+                    if label not in labels:
+                        print("Error: Invalid label provided")
+                        break
+                    elif registers[reg1] == registers[reg2]:
+                        # Do... something, not a continue statement
+                        continue
+                    else:
+                        # Continue reading lines in order
+                        continue
                     return
                 else:
                     # Handle invalid instructions
