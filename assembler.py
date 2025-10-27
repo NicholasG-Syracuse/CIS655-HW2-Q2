@@ -59,7 +59,18 @@ def instructionRead(filename, labels):
                 # Big chunk of if/else statements reading tokens goes here
                 if tok[0].upper() == "LOAD":
                     # Process Load instruction here
+                    print("Processing LOAD instructions:")
+                    #  Extract register (reg) and value (val)
+                    if len(tok) >= 3:
+                        reg = tok[1]
+                        val = tok[2]
+                    else:
+                        print("Error Loading instruction")
                     return
+                else:
+                    print("Insruction LOAD is not recognized")
+                return
+                    
                 elif tok[0].upper() == "STORE":
                     # Process Store instruction here
                     return
