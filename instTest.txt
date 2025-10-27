@@ -1,0 +1,13 @@
+load r1 3
+load r2 7
+addreg r1 r2
+
+load r3 2
+add r3 3
+add r3 5
+
+subtract r1 2
+
+multiply r1 3
+
+division r1 2
