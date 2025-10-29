@@ -21,8 +21,9 @@ def parseLabels(filename):
 
             if line[0] == '.':
                 # Save the address of the label
-                labels[line[1:]] = lineN*4
-                print("Label found: ", + line[1:] + " on " + format(lineN * 4, '#04x'))
+                labels[line[1:]] = lineN
+                print("Label found: " + line[1:] + " on line #" + str(lineN))
+                lineN += 1
             else:
                 lineN += 1
                 
@@ -160,22 +161,6 @@ def instructionRead(filename, labels):
                 elif tok[0].upper() == "COMPARE":
                     # Process Compare instruction here
                     return
-                elif tok[0].upper() == "BRANCHEQR":
-                    # Process Branch If Equal (Register Comparison) instruction here
-                    # Don't forget that there's 4 types of Branch
-                    reg1 = tok[1].upper()
-                    reg2 = tok[2].upper()
-                    label = tok[3]
-
-                    if label not in labels:
-                        print("Error: Invalid label provided")
-                        break
-                    elif registers[reg1] == registers[reg2]:
-                        # Do... something, not a continue statement
-                        continue
-                    else:
-                        # Continue reading lines in order
-                        continue
                 else:
                     # Handle invalid instructions
                     # If we include labels, need a way to skip over label lines to avoid

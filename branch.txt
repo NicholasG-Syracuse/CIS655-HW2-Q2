@@ -1,0 +1,6 @@
+load r1 1
+.loop
+addreg r2 r1
+add r1 1
+branchlt r1 10 loop
+move r3 r2
