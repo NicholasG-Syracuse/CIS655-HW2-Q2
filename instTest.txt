@@ -11,3 +11,9 @@ subtract r1 2
 multiply r1 3
 
 division r1 2
+
+load r4 6
+store r4 15
+loadmem r5 15
+
+comparelt r6 r5 10 
