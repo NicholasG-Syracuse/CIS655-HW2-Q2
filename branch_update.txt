@@ -1,0 +1,10 @@
+load r1 1
+.loop
+addreg r2 r1
+add r1 1
+branchlt r1 10 loop
+move r3 r2
+load R1 42
+store R1 100
+load R2 99
+store R2 200
